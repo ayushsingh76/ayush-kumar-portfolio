@@ -36,6 +36,12 @@ python -m http.server 8000
 
 Then visit [http://localhost:8000](http://localhost:8000).
 
+## Featured Projects
+
+- [Pizza Sales Analysis](https://github.com/ayushsingh76/PIZZA-SALES) — Analyze pizza sales, customer preferences, and revenue trends using Microsoft Excel.
+- [Retail Sales Analysis](https://github.com/ayushsingh76/RETAIL-ANALYSIS) — Clean and analyze retail transactions with SQL, including category, customer, and time-based analysis.
+- [Coffee Shop Sales & Customer Behavior Analysis](https://github.com/ayushsingh76/Coffee-Shop-Sales-Customer-Behavior-Analysis-Dashboard) — Explore coffee shop sales KPIs to inform inventory, pricing, staffing, and regional sales decisions.
+
 ## Project Files
 
 ```text
