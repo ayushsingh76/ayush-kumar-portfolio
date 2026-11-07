@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ayush Kumar | Data Analyst & Data Storyteller</title>
+<meta name="description" content="Ayush Kumar — Data Analyst and Data Storyteller. Transforming raw data into meaningful business insights."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--blue:#00d4ff;--violet:#8b5cff;--cyan:#22d3ee}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#030308;color:#e7ecf5;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.display{font-family:'Space Grotesk',system-ui,sans-serif}
+::selection{background:rgba(0,212,255,.25)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#05070d}
+::-webkit-scrollbar-thumb{background:linear-gradient(#00d4ff,#8b5cff);border-radius:99px}
+.glass{background:linear-gradient(135deg,rgba(18,24,42,.72),rgba(8,11,20,.58));border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.glow{text-shadow:0 0 18px rgba(0,212,255,.45),0 0 55px rgba(139,92,255,.22)}
+.grid-bg{background-image:linear-gradient(rgba(0,212,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.055) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at 50% 30%,black,transparent 78%);-webkit-mask-image:radial-gradient(circle at 50% 30%,black,transparent 78%)}
+.btn-primary{background:linear-gradient(90deg,#00d4ff,#8b5cff);color:#000;font-weight:600;border-radius:999px;padding:14px 30px;transition:.3s;border:0;cursor:pointer}
+.btn-primary:hover{box-shadow:0 0 25px rgba(0,212,255,.45),0 0 70px rgba(139,92,255,.25);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#fff;border-radius:999px;padding:14px 30px;transition:.3s;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-ghost:hover{border-color:rgba(0,212,255,.45);color:#00d4ff;transform:translateY(-2px)}
+.card{border-radius:24px;padding:32px;transition:.35s}
+.card:hover{transform:translateY(-6px);border-color:rgba(0,212,255,.35);box-shadow:0 30px 80px -30px rgba(0,212,255,.25)}
+.chip{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);padding:6px 14px;border-radius:999px;font-size:12px;color:#cbd5e1}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.cursor{position:fixed;top:0;left:0;width:28px;height:28px;border:1px solid rgba(0,212,255,.6);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;mix-blend-mode:screen}
+.cursor.big{width:56px;height:56px;background:rgba(0,212,255,.1)}
+@media(max-width:768px){.cursor{display:none}}
+#loader{position:fixed;inset:0;z-index:10000;background:#030308;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity .7s,visibility .7s}
+#loader.hide{opacity:0;visibility:hidden}
+.ring{width:80px;height:80px;border-radius:50%;border:2px solid rgba(0,212,255,.2);border-top-color:#00d4ff;animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.timeline-line{position:absolute;left:6px;top:10px;bottom:12px;width:2px;background:linear-gradient(180deg,#00d4ff,#8b5cff 75%,transparent 100%)}
+.dot{position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:#030308;border:2px solid #00d4ff;box-shadow:0 0 14px rgba(0,212,255,.65);display:flex;align-items:center;justify-content:center}
+.dot::after{content:'';width:4px;height:4px;border-radius:50%;background:#00d4ff;box-shadow:0 0 6px #00d4ff}
+</style>
+</head>
+<body>
+<div id="loader"><div class="ring"></div><p style="letter-spacing:.35em;text-transform:uppercase;font-size:12px;color:#94a3b8">Initializing Data Universe</p></div>
+<div class="cursor" id="cursor"></div>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:50" class="px-5 py-4">
+ <div class="mx-auto max-w-7xl glass rounded-full px-5 py-3 flex items-center justify-between">
+  <a href="#home" class="display font-bold text-white">AYUSH<span style="color:#00d4ff">.</span>K</a>
+  <div class="hidden lg:flex items-center gap-1">
+   <a class="px-4 py-2 text-sm text-slate-300 hover:text-white" href="#about">About</a>
+   <a class="px-4 py-2 text-sm text-slate-300 hover:text-white" href="#skills">Skills</a>
+   <a class="px-4 py-2 text-sm text-slate-300 hover:text-white" href="#projects">Projects</a>
+   <a class="px-4 py-2 text-sm text-slate-300 hover:text-white" href="#education">Education</a>
+   <a class="px-4 py-2 text-sm text-slate-300 hover:text-white" href="#contact">Contact</a>
+  </div>
+  <div class="flex items-center gap-3">
+   <a href="https://linkedin.com/in/ayush-kumar-3b8968292" target="_blank" class="hidden sm:block text-slate-300 hover:text-[#00d4ff]">LinkedIn</a>
+   <a href="https://github.com/ayushsingh76" target="_blank" class="hidden sm:block text-slate-300 hover:text-[#00d4ff]">GitHub</a>
+  </div>
+ </div>
+</nav>
+
+<section id="home" class="relative min-h-screen flex items-center pt-28 pb-20">
+ <div class="absolute inset-0 grid-bg"></div>
+ <canvas id="bg3d" style="position:fixed;inset:0;z-index:0;pointer-events:none"></canvas>
+ <div class="relative z-10 mx-auto max-w-7xl px-5 md:px-8 grid lg:grid-cols-2 gap-12 items-center">
+  <div>
+   <div class="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[.25em] text-cyan-200 reveal">Available for opportunities</div>
+   <h1 class="display mt-7 text-5xl sm:text-7xl lg:text-8xl font-bold leading-[.95] text-white reveal">HEY, I'M<br><span class="glow" style="background:linear-gradient(90deg,#00d4ff,#22d3ee,#8b5cff);-webkit-background-clip:text;background-clip:text;color:transparent">AYUSH KUMAR</span></h1>
+   <p class="display mt-7 text-lg md:text-xl uppercase tracking-[.18em] text-slate-300 reveal">Data Analyst | Data Storyteller</p>
+   <p class="mt-5 max-w-xl text-lg text-slate-400 reveal">Transforming Raw Data Into Meaningful Business Insights.</p>
+   <div class="mt-10 flex flex-wrap gap-4 reveal">
+    <a href="#projects" class="btn-primary">Explore My Work</a>
+    <a href="Ayush_Kumar.pdf" target="_blank" rel="noopener noreferrer" class="btn-ghost">View Resume</a>
+   </div>
+  </div>
+  <div class="glass card reveal" style="min-height:380px">
+   <canvas id="hero3d" style="width:100%;height:380px;display:block"></canvas>
+  </div>
+ </div>
+</section>
+
+<section id="about" class="py-28">
+ <div class="mx-auto max-w-7xl px-5 md:px-8">
+  <p class="text-center text-xs uppercase tracking-[.35em] text-[#00d4ff] reveal">About Me</p>
+  <h2 class="display mt-4 text-center text-4xl md:text-6xl font-bold text-white reveal">Turning Data Into Decisions</h2>
+  <div class="mt-14 grid lg:grid-cols-2 gap-8">
+   <div class="glass card reveal">
+    <h3 class="display text-2xl md:text-3xl font-semibold text-white">Data Analyst with a storyteller’s mindset</h3>
+    <p class="mt-6 text-slate-300">I am a BCA graduate passionate about data analytics, business intelligence, and data visualization.</p>
+    <p class="mt-4 text-slate-300">I enjoy turning raw, messy datasets into clear narratives that help people understand performance, customer behavior, and business opportunities.</p>
+    <p class="mt-4 text-slate-300">My work focuses on SQL, Python, Power BI, Excel, data cleaning, exploratory data analysis, and dashboard storytelling.</p>
+   </div>
+   <div class="glass card reveal">
+    <h3 class="display text-2xl font-semibold text-white mb-8">My Journey</h3>
+    <div style="position:relative" class="space-y-8">
+     <div class="timeline-line"></div>
+     <div style="position:relative;padding-left:32px"><span class="dot"></span><p class="display text-lg font-semibold text-white">Foundation</p><p class="mt-2 text-sm text-slate-400">Developed an interest in technology, programming, and problem-solving.</p></div>
+     <div style="position:relative;padding-left:32px"><span class="dot"></span><p class="display text-lg font-semibold text-white">BCA Journey</p><p class="mt-2 text-sm text-slate-400">Pursued Bachelor of Computer Applications and built a foundation in computing and databases.</p></div>
+     <div style="position:relative;padding-left:32px"><span class="dot"></span><p class="display text-lg font-semibold text-white">Data Analytics</p><p class="mt-2 text-sm text-slate-400">Explored SQL, Python, Excel, Power BI, data cleaning, EDA, and visualization.</p></div>
+     <div style="position:relative;padding-left:32px"><span class="dot"></span><p class="display text-lg font-semibold text-white">Business Intelligence</p><p class="mt-2 text-sm text-slate-400">Focused on transforming data into clear dashboards, insights, and business stories.</p></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="skills" class="py-28">
+ <div class="mx-auto max-w-7xl px-5 md:px-8">
+  <p class="text-center text-xs uppercase tracking-[.35em] text-[#00d4ff] reveal">Technical Arsenal</p>
+  <h2 class="display mt-4 text-center text-4xl md:text-6xl font-bold text-white reveal">Skills & Tools</h2>
+  <div id="skillsGrid" class="mt-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
+ </div>
+</section>
+
+<section id="projects" class="py-28">
+ <div class="mx-auto max-w-7xl px-5 md:px-8">
+  <p class="text-center text-xs uppercase tracking-[.35em] text-[#00d4ff] reveal">Selected Work</p>
+  <h2 class="display mt-4 text-center text-4xl md:text-6xl font-bold text-white reveal">Data Projects</h2>
+  <div id="projectsGrid" class="mt-14 grid lg:grid-cols-2 gap-6"></div>
+ </div>
+</section>
+
+<section id="education" class="py-28">
+ <div class="mx-auto max-w-4xl px-5 md:px-8">
+  <p class="text-center text-xs uppercase tracking-[.35em] text-[#00d4ff] reveal">Education</p>
+  <h2 class="display mt-4 text-center text-4xl md:text-6xl font-bold text-white reveal">Academic Foundation</h2>
+  <div class="glass card mt-14 reveal">
+   <h3 class="display text-2xl font-bold text-white">Bachelor of Computer Applications (BCA)</h3>
+   <p class="mt-2 text-sm text-slate-400">Your College / University Name • Year — Year</p>
+   <p class="mt-6 text-slate-300">Built a foundation in computer applications, programming, databases, and analytical thinking.</p>
+  </div>
+ </div>
+</section>
+
+<section id="contact" class="py-28">
+ <div class="mx-auto max-w-7xl px-5 md:px-8">
+  <p class="text-center text-xs uppercase tracking-[.35em] text-[#00d4ff] reveal">Let’s Connect</p>
+  <h2 class="display mt-4 text-center text-4xl md:text-6xl font-bold text-white reveal">Start a Conversation</h2>
+  <div class="glass card mt-14 reveal text-center">
+   <h3 class="display text-3xl font-bold text-white">Let’s build insight together</h3>
+   <p class="mt-4 text-slate-400">Open to data analytics opportunities, collaborations, and meaningful conversations.</p>
+   <div class="mt-8 flex flex-wrap justify-center gap-4">
+    <a class="btn-ghost" href="https://linkedin.com/in/ayush-kumar-3b8968292" target="_blank">LinkedIn</a>
+    <a class="btn-ghost" href="https://github.com/ayushsingh76" target="_blank">GitHub</a>
+    <a class="btn-ghost" href="mailto:ayushsingh75599@gmail.com">Email</a>
+   </div>
+  </div>
+ </div>
+</section>
+
+<footer class="border-t border-white/5 py-8 text-center text-xs text-slate-500">© <span id="year"></span> Ayush Kumar — Data Analyst & Data Storyteller</footer>
+
+<script>
+const skills=["Python","SQL","Power BI","Excel","Pandas","NumPy","Matplotlib","MySQL","Data Cleaning","Exploratory Data Analysis","Data Visualization","Business Intelligence"];
+const projects=[
+ {title:"Coffee Shop Sales & Customer Behavior Analysis",cat:"Power BI",problem:"Understand sales performance, peak demand periods, popular products, and customer purchasing behavior.",tools:["Power BI","Data Cleaning","DAX","Data Visualization"],insights:["Identify high-performing products and sales periods.","Understand customer purchase patterns across time.","Surface opportunities for menu, staffing, and promotion decisions."],link:"https://github.com/ayushsingh76"},
+ {title:"Retail Sales Analysis",cat:"SQL",problem:"Analyze retail sales data to identify revenue drivers, product performance, and actionable sales trends.",tools:["SQL","MySQL","Data Analysis","Query Optimization"],insights:["Analyze revenue and sales trends across products and time.","Identify top-selling categories and products.","Support data-driven retail decision-making."],link:"https://github.com/ayushsingh76"},
+ {title:"Pizza Sales Analysis",cat:"Excel",problem:"Understand which pizzas, sizes, and time periods contribute most to revenue and order volume.",tools:["Excel","Pivot Tables","Charts","Data Cleaning"],insights:["Identify best-selling pizza types and sizes.","Analyze order volume and revenue patterns.","Highlight opportunities for menu and operations planning."],link:"https://github.com/ayushsingh76"},
+ {title:"Motorola Sales Dashboard",cat:"Power BI",problem:"Create a clear dashboard view of sales performance to support monitoring and business analysis.",tools:["Power BI","DAX","Dashboard Design","Data Visualization"],insights:["Monitor sales performance through interactive visuals.","Compare performance across relevant business dimensions.","Communicate insights through a clean dashboard experience."],link:"https://github.com/ayushsingh76"},
+ {title:"Movie Data Analysis",cat:"SQL",problem:"Explore movie datasets to identify patterns in ratings, genres, and other available movie attributes.",tools:["SQL","MySQL","Data Analysis","Data Visualization"],insights:["Analyze patterns across movie genres and ratings.","Explore relationships between available movie attributes.","Practice structured querying and analytical storytelling."],link:"https://github.com/ayushsingh76"}
+];
+document.getElementById('skillsGrid').innerHTML=skills.map((s,i)=>`<div class="glass card reveal" data-tilt><p class="display text-lg font-semibold text-white">${s}</p><div style="margin-top:16px;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;width:${60+(i%5)*8}%;border-radius:99px;background:linear-gradient(90deg,#00d4ff,#8b5cff)"></div></div></div>`).join('');
+document.getElementById('projectsGrid').innerHTML=projects.map((p,i)=>`<article class="glass card reveal"><span class="chip" style="color:#00d4ff;border-color:rgba(0,212,255,.3)">${p.cat}</span><h3 class="display mt-6 text-2xl md:text-3xl font-bold text-white">${p.title}</h3><p class="mt-4 text-slate-400">${p.problem}</p><div class="mt-6 flex flex-wrap gap-2">${p.tools.map(t=>`<span class="chip">${t}</span>`).join('')}</div><div class="mt-8 flex flex-wrap gap-3"><button class="btn-primary" onclick="openProject(${i})">View Case Study</button><a class="btn-ghost" href="${p.link}" target="_blank">GitHub</a></div></article>`).join('');
+function openProject(i){const p=projects[i];alert(p.title+"\n\nBusiness Problem:\n"+p.problem+"\n\nKey Insights:\n- "+p.insights.join("\n- ")+"\n\nGitHub: "+p.link);}
+document.getElementById('year').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-tilt]').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${y*-16}deg) translateY(-6px)`});card.addEventListener('mouseleave',()=>card.style.transform='')});
+const cursor=document.getElementById('cursor');addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.toggle('big',!!e.target.closest('a,button'))});
+setTimeout(()=>document.getElementById('loader').classList.add('hide'),1500);
+
+function makeScene(id){const c=document.getElementById(id);const s=new THREE.Scene();const cam=new THREE.PerspectiveCamera(45,c.clientWidth/c.clientHeight,.1,100);cam.position.z=7;const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRatio,1.6));
+ const group=new THREE.Group();s.add(group);
+ const geo=new THREE.IcosahedronGeometry(1.8,20);const mat=new THREE.MeshStandardMaterial({color:0x0b1a33,metalness:.85,roughness:.2,emissive:0x00d4ff,emissiveIntensity:.25,wireframe:false});const sphere=new THREE.Mesh(geo,mat);group.add(sphere);
+ const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,2),new THREE.MeshBasicMaterial({color:0x00d4ff,wireframe:true,transparent:true,opacity:.18}));group.add(wire);
+ const pgeo=new THREE.BufferGeometry();const n=700,pos=new Float32Array(n*3);for(let i=0;i<n*3;i++)pos[i]=(Math.random()-.5)*18;pgeo.setAttribute('position',new THREE.BufferAttribute(pos,3));const pts=new THREE.Points(pgeo,new THREE.PointsMaterial({color:0x7dd3fc,size:.03,transparent:true,opacity:.7}));s.add(pts);
+ s.add(new THREE.AmbientLight(0xffffff,.35));const l1=new THREE.PointLight(0x00d4ff,2,20);l1.position.set(4,3,4);s.add(l1);const l2=new THREE.PointLight(0x8b5cff,2,20);l2.position.set(-5,-2,-3);s.add(l2);
+ let mx=0,my=0;addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5)});
+ function loop(){sphere.rotation.y+=.004;wire.rotation.y-=.002;group.rotation.y=mx*.6;group.rotation.x=my*.35;cam.position.x+=(mx*1.2-cam.position.x)*.04;cam.position.y+=(-my*.8-cam.position.y)*.04;cam.lookAt(0,0,0);r.render(s,cam);requestAnimationFrame(loop)}loop();
+ addEventListener('resize',()=>{cam.aspect=c.clientWidth/c.clientHeight;cam.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)})}
+makeScene('hero3d');
+</script>
+</body>
+</html>
