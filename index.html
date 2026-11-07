@@ -29,6 +29,10 @@ h1,h2,h3,.display{font-family:'Space Grotesk',system-ui,sans-serif}
 .btn-ghost:hover{border-color:rgba(0,212,255,.45);color:#00d4ff;transform:translateY(-2px)}
 .card{border-radius:24px;padding:32px;transition:.35s}
 .card:hover{transform:translateY(-6px);border-color:rgba(0,212,255,.35);box-shadow:0 30px 80px -30px rgba(0,212,255,.25)}
+.card[data-tilt]{position:relative;transform-style:preserve-3d;will-change:transform;transition:transform .18s ease-out,border-color .35s,box-shadow .35s}
+.card[data-tilt]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--pointer-x,50%) var(--pointer-y,50%),rgba(0,212,255,.16),transparent 42%);transition:opacity .25s}
+.card[data-tilt]:hover::after{opacity:1}
+.card[data-tilt]>*{transform:translateZ(14px)}
 .chip{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);padding:6px 14px;border-radius:999px;font-size:12px;color:#cbd5e1}
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
 .reveal.in{opacity:1;transform:none}
@@ -42,6 +46,7 @@ h1,h2,h3,.display{font-family:'Space Grotesk',system-ui,sans-serif}
 .timeline-line{position:absolute;left:6px;top:10px;bottom:12px;width:2px;background:linear-gradient(180deg,#00d4ff,#8b5cff 75%,transparent 100%)}
 .dot{position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:#030308;border:2px solid #00d4ff;box-shadow:0 0 14px rgba(0,212,255,.65);display:flex;align-items:center;justify-content:center}
 .dot::after{content:'';width:4px;height:4px;border-radius:50%;background:#00d4ff;box-shadow:0 0 6px #00d4ff}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}.cursor{display:none}.ring{animation:none}.card[data-tilt]{will-change:auto;transition:none}.card[data-tilt]::after{display:none}}
 </style>
 </head>
 <body>
@@ -166,24 +171,97 @@ const projects=[
  {title:"Movie Data Analysis",cat:"SQL",problem:"Explore movie datasets to identify patterns in ratings, genres, and other available movie attributes.",tools:["SQL","MySQL","Data Analysis","Data Visualization"],insights:["Analyze patterns across movie genres and ratings.","Explore relationships between available movie attributes.","Practice structured querying and analytical storytelling."],link:"https://github.com/ayushsingh76/movie-data-analysis-sql"}
 ];
 document.getElementById('skillsGrid').innerHTML=skills.map((s,i)=>`<div class="glass card reveal" data-tilt><p class="display text-lg font-semibold text-white">${s}</p><div style="margin-top:16px;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;width:${60+(i%5)*8}%;border-radius:99px;background:linear-gradient(90deg,#00d4ff,#8b5cff)"></div></div></div>`).join('');
-document.getElementById('projectsGrid').innerHTML=projects.map((p,i)=>`<article class="glass card reveal"><span class="chip" style="color:#00d4ff;border-color:rgba(0,212,255,.3)">${p.cat}</span><h3 class="display mt-6 text-2xl md:text-3xl font-bold text-white">${p.title}</h3><p class="mt-4 text-slate-400">${p.problem}</p><div class="mt-6 flex flex-wrap gap-2">${p.tools.map(t=>`<span class="chip">${t}</span>`).join('')}</div><div class="mt-8 flex flex-wrap gap-3"><button class="btn-primary" onclick="openProject(${i})">View Case Study</button><a class="btn-ghost" href="${p.link}" target="_blank">GitHub</a></div></article>`).join('');
+document.getElementById('projectsGrid').innerHTML=projects.map((p,i)=>`<article class="glass card reveal" data-tilt><span class="chip" style="color:#00d4ff;border-color:rgba(0,212,255,.3)">${p.cat}</span><h3 class="display mt-6 text-2xl md:text-3xl font-bold text-white">${p.title}</h3><p class="mt-4 text-slate-400">${p.problem}</p><div class="mt-6 flex flex-wrap gap-2">${p.tools.map(t=>`<span class="chip">${t}</span>`).join('')}</div><div class="mt-8 flex flex-wrap gap-3"><button class="btn-primary" onclick="openProject(${i})">View Case Study</button><a class="btn-ghost" href="${p.link}" target="_blank">GitHub</a></div></article>`).join('');
 function openProject(i){const p=projects[i];alert(p.title+"\n\nBusiness Problem:\n"+p.problem+"\n\nKey Insights:\n- "+p.insights.join("\n- ")+"\n\nGitHub: "+p.link);}
 document.getElementById('year').textContent=new Date().getFullYear();
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-document.querySelectorAll('[data-tilt]').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${y*-16}deg) translateY(-6px)`});card.addEventListener('mouseleave',()=>card.style.transform='')});
-const cursor=document.getElementById('cursor');addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.toggle('big',!!e.target.closest('a,button'))});
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+if(!reducedMotion.matches&&matchMedia('(hover: hover) and (pointer: fine)').matches){document.querySelectorAll('[data-tilt]').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.setProperty('--pointer-x',`${(x+.5)*100}%`);card.style.setProperty('--pointer-y',`${(y+.5)*100}%`);card.style.transform=`perspective(900px) rotateY(${x*12}deg) rotateX(${y*-12}deg) translateY(-6px)`});card.addEventListener('pointerleave',()=>card.style.removeProperty('transform'))})}
+const cursor=document.getElementById('cursor');if(!reducedMotion.matches)addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.toggle('big',!!e.target.closest('a,button'))});
 setTimeout(()=>document.getElementById('loader').classList.add('hide'),1500);
 
-function makeScene(id){const c=document.getElementById(id);const s=new THREE.Scene();const cam=new THREE.PerspectiveCamera(45,c.clientWidth/c.clientHeight,.1,100);cam.position.z=7;const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRatio,1.6));
- const group=new THREE.Group();s.add(group);
- const geo=new THREE.IcosahedronGeometry(1.8,20);const mat=new THREE.MeshStandardMaterial({color:0x0b1a33,metalness:.85,roughness:.2,emissive:0x00d4ff,emissiveIntensity:.25,wireframe:false});const sphere=new THREE.Mesh(geo,mat);group.add(sphere);
- const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.3,2),new THREE.MeshBasicMaterial({color:0x00d4ff,wireframe:true,transparent:true,opacity:.18}));group.add(wire);
- const pgeo=new THREE.BufferGeometry();const n=700,pos=new Float32Array(n*3);for(let i=0;i<n*3;i++)pos[i]=(Math.random()-.5)*18;pgeo.setAttribute('position',new THREE.BufferAttribute(pos,3));const pts=new THREE.Points(pgeo,new THREE.PointsMaterial({color:0x7dd3fc,size:.03,transparent:true,opacity:.7}));s.add(pts);
- s.add(new THREE.AmbientLight(0xffffff,.35));const l1=new THREE.PointLight(0x00d4ff,2,20);l1.position.set(4,3,4);s.add(l1);const l2=new THREE.PointLight(0x8b5cff,2,20);l2.position.set(-5,-2,-3);s.add(l2);
- let mx=0,my=0;addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5)});
- function loop(){sphere.rotation.y+=.004;wire.rotation.y-=.002;group.rotation.y=mx*.6;group.rotation.x=my*.35;cam.position.x+=(mx*1.2-cam.position.x)*.04;cam.position.y+=(-my*.8-cam.position.y)*.04;cam.lookAt(0,0,0);r.render(s,cam);requestAnimationFrame(loop)}loop();
- addEventListener('resize',()=>{cam.aspect=c.clientWidth/c.clientHeight;cam.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)})}
+function makeScene(id){
+ const c=document.getElementById(id),s=new THREE.Scene();
+ const cam=new THREE.PerspectiveCamera(42,c.clientWidth/c.clientHeight,.1,100);cam.position.z=7.4;
+ const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});
+ r.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(max-width: 768px)').matches?1.25:1.6));r.setSize(c.clientWidth,c.clientHeight);
+
+ const system=new THREE.Group();s.add(system);
+ const core=new THREE.Group();system.add(core);
+ const heart=new THREE.Mesh(new THREE.IcosahedronGeometry(.92,2),new THREE.MeshStandardMaterial({color:0x142d55,metalness:.72,roughness:.2,emissive:0x00bde8,emissiveIntensity:.42}));
+ core.add(heart);
+ const inner=new THREE.Mesh(new THREE.IcosahedronGeometry(.48,1),new THREE.MeshBasicMaterial({color:0x53e8ff,wireframe:true,transparent:true,opacity:.72}));
+ core.add(inner);
+ const crown=new THREE.Mesh(new THREE.OctahedronGeometry(1.12,1),new THREE.MeshBasicMaterial({color:0x8b5cff,wireframe:true,transparent:true,opacity:.34}));
+ core.add(crown);
+ const halo=new THREE.Mesh(new THREE.SphereGeometry(1.02,24,24),new THREE.MeshBasicMaterial({color:0x00d4ff,transparent:true,opacity:.035,side:THREE.BackSide}));
+ core.add(halo);
+
+ const orbitSpecs=[
+  {radius:1.72,color:0x00d4ff,tilt:[.92,.18,.12],speed:.014,phase:0},
+  {radius:2.08,color:0x9b7bff,tilt:[1.2,.84,-.28],speed:-.01,phase:2.1},
+  {radius:2.42,color:0x60e6ff,tilt:[.46,1.34,.3],speed:.007,phase:4.2}
+ ];
+ const orbiters=[];
+ orbitSpecs.forEach(spec=>{
+  const path=new THREE.Group();path.rotation.set(...spec.tilt);system.add(path);
+  const track=new THREE.Mesh(new THREE.TorusGeometry(spec.radius,.009,6,160),new THREE.MeshBasicMaterial({color:spec.color,transparent:true,opacity:.42}));
+  path.add(track);
+  const satellite=new THREE.Group();path.add(satellite);
+  const node=new THREE.Mesh(new THREE.SphereGeometry(.075,16,16),new THREE.MeshStandardMaterial({color:spec.color,emissive:spec.color,emissiveIntensity:1.2,metalness:.3,roughness:.18}));
+  satellite.add(node);
+  const nodeHalo=new THREE.Mesh(new THREE.TorusGeometry(.13,.006,5,32),new THREE.MeshBasicMaterial({color:spec.color,transparent:true,opacity:.7}));
+  nodeHalo.rotation.x=1.1;satellite.add(nodeHalo);
+  orbiters.push({satellite,radius:spec.radius,speed:spec.speed,angle:spec.phase});
+ });
+
+ const bars=[],chart=new THREE.Group();chart.position.set(0,-1.82,.78);system.add(chart);
+ const values=[.28,.45,.36,.68,.5,.88,.59,.78,.98,.67,.84],barColors=[0x087eae,0x0c9ac2,0x12b9da,0x25d1ed,0x4eddf4,0x8b5cff,0x9c7aff,0x7f6bf2,0x55a9ff,0x36caed,0x8b5cff];
+ values.forEach((value,i)=>{
+  const bar=new THREE.Mesh(new THREE.BoxGeometry(.115,value,.1),new THREE.MeshStandardMaterial({color:barColors[i],emissive:barColors[i],emissiveIntensity:.42,metalness:.35,roughness:.3}));
+  bar.position.set((i-(values.length-1)/2)*.19,value/2,0);chart.add(bar);bars.push({bar,phase:i*.62,height:value});
+ });
+ const baseline=new THREE.Mesh(new THREE.BoxGeometry(2.18,.012,.08),new THREE.MeshBasicMaterial({color:0x54dfff,transparent:true,opacity:.55}));
+ baseline.position.y=-.035;chart.add(baseline);
+ const chartDots=new THREE.Group();chart.add(chartDots);
+ values.forEach((value,i)=>{
+  const dot=new THREE.Mesh(new THREE.SphereGeometry(.025,8,8),new THREE.MeshBasicMaterial({color:0xb8f7ff}));
+  dot.position.set((i-(values.length-1)/2)*.19,value+.03,.07);chartDots.add(dot);
+ });
+
+ const pgeo=new THREE.BufferGeometry(),n=440,pos=new Float32Array(n*3);
+ for(let i=0;i<n*3;i++)pos[i]=(Math.random()-.5)*13;
+ pgeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ const pts=new THREE.Points(pgeo,new THREE.PointsMaterial({color:0x7dd3fc,size:.022,transparent:true,opacity:.58}));s.add(pts);
+ s.add(new THREE.AmbientLight(0xffffff,.42));
+ const l1=new THREE.PointLight(0x00d4ff,2.4,18);l1.position.set(3,3,4);s.add(l1);
+ const l2=new THREE.PointLight(0x8b5cff,2,16);l2.position.set(-4,-2,-2);s.add(l2);
+
+ let mx=0,my=0,time=0;
+ addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
+ let frameId=0;
+ function renderFrame(){
+  frameId=0;if(document.hidden)return;
+  if(!reducedMotion.matches){
+   time+=.016;heart.rotation.y+=.003;heart.rotation.x+=.0015;inner.rotation.y-=.008;crown.rotation.y+=.004;crown.rotation.z-=.002;
+   system.rotation.y+=(mx*.22-system.rotation.y)*.025;system.rotation.x+=(my*-.14-system.rotation.x)*.025;
+   orbiters.forEach(item=>{item.angle+=item.speed;item.satellite.position.set(Math.cos(item.angle)*item.radius,Math.sin(item.angle)*item.radius,0)});
+   bars.forEach(item=>{item.bar.scale.y=1+Math.sin(time*1.35+item.phase)*.045;item.bar.position.y=item.height*item.bar.scale.y/2});
+   pts.rotation.y+=.00035;pts.rotation.x+=.00012;
+   cam.position.x+=(mx*.32-cam.position.x)*.025;cam.position.y+=(-my*.22-cam.position.y)*.025;
+  }
+  cam.lookAt(0,0,0);r.render(s,cam);
+  if(!reducedMotion.matches)frameId=requestAnimationFrame(renderFrame);
+ }
+ function updateAnimation(){
+  if(frameId){cancelAnimationFrame(frameId);frameId=0}
+  if(reducedMotion.matches){if(!document.hidden)renderFrame()}
+  else if(!document.hidden)frameId=requestAnimationFrame(renderFrame)
+ }
+ document.addEventListener('visibilitychange',updateAnimation);reducedMotion.addEventListener('change',updateAnimation);updateAnimation();
+ addEventListener('resize',()=>{cam.aspect=c.clientWidth/c.clientHeight;cam.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)});
+}
 makeScene('hero3d');
 </script>
 </body>

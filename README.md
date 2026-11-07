@@ -6,7 +6,7 @@ A responsive personal portfolio showcasing Ayush Kumar's data analytics skills, 
 
 - Single-page layout with About, Skills, Projects, Education, and Contact sections
 - Responsive styling with Tailwind CSS and custom CSS
-- Animated data-themed visuals powered by Three.js
+- Interactive Three.js analytics scene with orbiting data nodes, a crystalline core, and a floating 3D chart
 - Interactive skills and project cards rendered with JavaScript
 - Resume link to `Ayush_Kumar.pdf`
 
